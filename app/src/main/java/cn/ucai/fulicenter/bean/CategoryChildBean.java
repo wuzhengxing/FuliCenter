@@ -11,6 +11,7 @@ public class CategoryChildBean implements Serializable {
      * imageUrl : cat_image/256_4.png
      */
 
+
     private int id;
     private int parentId;
     private String name;

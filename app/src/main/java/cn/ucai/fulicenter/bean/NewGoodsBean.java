@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class NewGoodsBean implements Serializable {
 
-    /**
+    /**1
      * id : 1
      * goodsId : 7672
      * catId : 0
@@ -24,6 +24,7 @@ public class NewGoodsBean implements Serializable {
      * colorUrl : 1
      * addTime : 1442389445    
      */
+
 
     private int id;
     private int goodsId;

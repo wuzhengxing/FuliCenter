@@ -7,6 +7,7 @@ public class MessageBean {
      * msg : 添加收藏成功
      */
 
+
     private boolean success;
     private String msg;
 

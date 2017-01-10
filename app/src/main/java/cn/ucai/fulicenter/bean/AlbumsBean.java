@@ -2,7 +2,11 @@ package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
 
+/**
+ * 1
+ */
 public class AlbumsBean implements Serializable {
+
 
     private int pid;
     private int imgId;

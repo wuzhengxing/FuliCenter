@@ -2,7 +2,11 @@ package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
 
+/**
+ * 1
+ */
 public class CartBean implements Serializable {
+
 
     private int id=0;
     private String userName;
@@ -72,6 +76,11 @@ public class CartBean implements Serializable {
 
         return getId() == cartBean.getId();
 
+    }
+
+    @Override
+    public int hashCode() {
+        return getId();
     }
 
     @Override

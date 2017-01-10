@@ -4,11 +4,12 @@ import java.io.Serializable;
 
 public class CategoryGroupBean implements Serializable {
 
-    /**
+    /**1
      * id : 334
      * name : 配饰
      * imageUrl : muying/Jewelry.png
      */
+
 
     private int id;
     private String name;

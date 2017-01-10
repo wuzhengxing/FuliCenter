@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class CollectBean implements Serializable {
 
-    /**
+    /**1
      * id : 7672
      * userName : 7672
      * goodsId : 7672
@@ -14,6 +14,8 @@ public class CollectBean implements Serializable {
      * goodsImg : http:121.197.1.20/images/201507/1437108490034171398.jpg
      * addTime : 1442419200000
      */
+
+
 
     private int id;
     private String userName;
@@ -100,5 +102,21 @@ public class CollectBean implements Serializable {
                 ", goodsImg='" + goodsImg + '\'' +
                 ", addTime=" + addTime +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CollectBean)) return false;
+
+        CollectBean that = (CollectBean) o;
+
+        return getGoodsId() == that.getGoodsId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getGoodsId();
     }
 }

@@ -1,22 +1,24 @@
 package cn.ucai.fulicenter.bean;
 
-import java.io.Serializable;
 
-/**
- * Created by Administrator on 2017/1/9.
+import cn.ucai.fulicenter.application.I;
+
+/**1
+ * Created by clawpo on 2016/10/21.
  */
 
-public class User implements Serializable {
+public class User {
 
     /**
-     * muserName : a123456
-     * muserNick : 1234563
-     * mavatarId : 245
+     * muserName : a952700
+     * muserNick : 士大夫
+     * mavatarId : 72
      * mavatarPath : user_avatar
      * mavatarSuffix : .jpg
      * mavatarType : 0
-     * mavatarLastUpdateTime : 1477446355442
+     * mavatarLastUpdateTime : 1476262984280
      */
+
 
     private String muserName;
     private String muserNick;
@@ -59,7 +61,7 @@ public class User implements Serializable {
     }
 
     public String getMavatarSuffix() {
-        return mavatarSuffix;
+        return mavatarSuffix!=null?mavatarSuffix: I.AVATAR_SUFFIX_JPG;
     }
 
     public void setMavatarSuffix(String mavatarSuffix) {
@@ -82,7 +84,23 @@ public class User implements Serializable {
         this.mavatarLastUpdateTime = mavatarLastUpdateTime;
     }
 
-    public User() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (!getMuserName().equals(user.getMuserName())) return false;
+        return getMavatarLastUpdateTime().equals(user.getMavatarLastUpdateTime());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getMuserName().hashCode();
+        result = 31 * result + getMavatarLastUpdateTime().hashCode();
+        return result;
     }
 
     @Override

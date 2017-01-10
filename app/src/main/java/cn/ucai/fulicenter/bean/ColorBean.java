@@ -4,13 +4,14 @@ import java.io.Serializable;
 
 public class ColorBean implements Serializable {
 
-    /**
+    /**1
      * catId : 262
      * colorId : 1
      * colorName : 灰色
      * colorCode : #959595
      * colorImg : 121.197.1.20/images/201309/1380064809234134935.jpg
      */
+
 
     private int catId;
     private int colorId;
