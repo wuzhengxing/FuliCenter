@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_above="@+id/main_bottom"
+        android:background="#D6DCDC" />
+
+    <FrameLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/view"
+        android:layout_marginBottom="1dp" />
+
     <LinearLayout
         android:id="@+id/main_bottom"
         android:layout_width="match_parent"
@@ -65,4 +79,5 @@
 
 
     </LinearLayout>
+
 </RelativeLayout>
