@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +15,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
@@ -24,28 +25,29 @@ import cn.ucai.fulicenter.model.net.IModelNewGoods;
 import cn.ucai.fulicenter.model.net.ModelNewGoods;
 import cn.ucai.fulicenter.model.net.OnCompletionListener;
 import cn.ucai.fulicenter.model.utils.ConvertUtils;
+import cn.ucai.fulicenter.model.utils.SpaceItemDecoration;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NewGoodsFragment extends Fragment {
+    final static int ACTION_DOWNLOAD = 0;
+    final static int ACTION_DOWNLOAD_UP = 1;
+    final static int ACTION_DOWNLOAD_DOWN = 2;
     GridLayoutManager gm;
     NewGoodsAdapter mAdapter;
     ArrayList<NewGoodsBean> mList;
     IModelNewGoods model;
-    RecyclerView rv;
-    TextView tv;
-    SwipeRefreshLayout srl;
 
-    int pageId = 1;
+    int mPageId = 1;
 
+    @BindView(R.id.tvRefresh)
+    TextView mtvRefresh;
+    @BindView(R.id.rv)
+    RecyclerView mrv;
+    @BindView(R.id.srl)
+    SwipeRefreshLayout msrl;
 
-//    @butterknife.BindView(R.id.tvRefresh)
-//    android.widget.TextView tvRefresh;
-//    @butterknife.BindView(R.id.rv)
-//    android.support.v7.widget.RecyclerView rv;
-//    @butterknife.BindView(R.id.srl)
-//    android.support.v4.widget.SwipeRefreshLayout srl;
 
     public NewGoodsFragment() {
 
@@ -56,45 +58,99 @@ public class NewGoodsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_new_goods, container, false);
+        ButterKnife.bind(this, layout);
         model = new ModelNewGoods();
         initData();
-        initView(layout);
+        initView();
+        setListener();
         return layout;
     }
 
+    private void setListener() {
+        pullDownListener();
+        mrv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int position = gm.findLastVisibleItemPosition();
+                Log.i("main", "position=" + position + "  count=" + (mAdapter.getItemCount() - 1));
+
+                mAdapter.setDragging(newState == RecyclerView.SCROLL_STATE_DRAGGING);
+                if (!mAdapter.isDragging() && mAdapter.isMore() && position == mAdapter.getItemCount() - 1) {
+                    mPageId++;
+                    downloadGoodsList(ACTION_DOWNLOAD_UP, mPageId);
+                }
+            }
+        });
+    }
+
+    private void pullDownListener() {
+        msrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mtvRefresh.setVisibility(View.VISIBLE);
+                msrl.setRefreshing(true);
+                mPageId = 1;
+                downloadGoodsList(ACTION_DOWNLOAD_DOWN, mPageId);
+            }
+        });
+    }
+
     private void initData() {
+        downloadGoodsList(ACTION_DOWNLOAD, mPageId);
+    }
+
+    private void downloadGoodsList(final int action, int pageId) {
         model.downData(getActivity(), I.CAT_ID, pageId, new OnCompletionListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 Log.e("main", Arrays.toString(result));
                 ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
-                mAdapter.initData(list);
+                mAdapter.setMore(list.size() > 0 && list != null);
+                if (!mAdapter.isMore()) {
+                    if (action == ACTION_DOWNLOAD_UP) {
+                        mAdapter.setFooter("没有更多商品了");
+                    }
+                    return;
+                }
+                mAdapter.setFooter("正在加载数据");
+                switch (action) {
+                    case ACTION_DOWNLOAD:
+                        mAdapter.initData(list);
+                        break;
+                    case ACTION_DOWNLOAD_DOWN:
+                        msrl.setRefreshing(false);
+                        mtvRefresh.setVisibility(View.GONE);
+                        mAdapter.initData(list);
+                        break;
+                    case ACTION_DOWNLOAD_UP:
+                        mAdapter.addData(list);
+                        break;
+                }
             }
 
             @Override
             public void onError(String error) {
+                Log.e("main", "error" + error);
 
             }
         });
     }
 
-    private void initView(View layout) {
-        rv= (RecyclerView) layout.findViewById(R.id.rv);
-        srl= (SwipeRefreshLayout) layout.findViewById(R.id.srl);
-        tv= (TextView) layout.findViewById(R.id.tvRefresh);
+    private void initView() {
         mList = new ArrayList<>();
-        srl.setColorSchemeColors(
+        msrl.setColorSchemeColors(
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_yellow),
                 getResources().getColor(R.color.google_green),
                 getResources().getColor(R.color.google_red)
         );
         gm = new GridLayoutManager(getContext(), I.COLUM_NUM);
-        //LinearLayoutManager lm=new LinearLayoutManager(getContext());
-        rv.setLayoutManager(gm);
-        rv.setHasFixedSize(true);
+        mrv.addItemDecoration(new SpaceItemDecoration(30));
+        mrv.setLayoutManager(gm);
+        mrv.setHasFixedSize(true);
         mAdapter = new NewGoodsAdapter(getContext(), mList);
-        rv.setAdapter(mAdapter);
+        mrv.setAdapter(mAdapter);
     }
 
 }
