@@ -1,6 +1,8 @@
 package cn.ucai.fulicenter.controller.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
@@ -8,12 +10,17 @@ import android.widget.RadioButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.controller.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter.controller.fragment.NewGoodsFragment;
 
 public class MainActivity extends AppCompatActivity {
-    //RadioButton rbNewGood, rbBoutique, rbCart, rbCategory, rbPersonal;
     int index, currentIndex;
-    NewGoodsFragment mFragment;
+    FragmentTransaction ft;
+
+    NewGoodsFragment mNewGoodsFragment;
+    BoutiqueFragment mBoutiqueFragment;
+    Fragment[] fragments = new Fragment[5];
+
     RadioButton[] rbs;
     @BindView(R.id.layout_new_good)
     RadioButton layoutNewGood;
@@ -30,18 +37,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mFragment=new NewGoodsFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.layout_content,mFragment).commit();
         ButterKnife.bind(this);
         initView();
+        initFragment();
+    }
+
+    private void initFragment() {
+        ft = getSupportFragmentManager().beginTransaction();
+        mNewGoodsFragment = new NewGoodsFragment();
+        mBoutiqueFragment = new BoutiqueFragment();
+        fragments[0] = mNewGoodsFragment;
+        fragments[1] = mBoutiqueFragment;
+        ft.add(R.id.layout_content, mNewGoodsFragment).
+        add(R.id.layout_content, mBoutiqueFragment).show(mNewGoodsFragment).hide(mBoutiqueFragment).commit();
     }
 
     private void initView() {
-        /*rbNewGood = (RadioButton) findViewById(R.id.layout_new_good);
-        rbBoutique = (RadioButton) findViewById(R.id.layout_boutique);
-        rbCart = (RadioButton) findViewById(R.id.layout_cart);
-        rbCategory = (RadioButton) findViewById(R.id.layout_category);
-        rbPersonal = (RadioButton) findViewById(R.id.layout_personal_center);*/
         rbs = new RadioButton[5];
         rbs[0] = layoutNewGood;
         rbs[1] = layoutBoutique;
@@ -54,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.layout_new_good:
                 index = 0;
-
                 break;
             case R.id.layout_boutique:
                 index = 1;
@@ -69,9 +79,14 @@ public class MainActivity extends AppCompatActivity {
                 index = 4;
                 break;
         }
+        setFragment();
         if (index != currentIndex) {
             setRadioStatus();
         }
+    }
+
+    public void setFragment() {
+        getSupportFragmentManager().beginTransaction().show(fragments[index]).hide(fragments[currentIndex]).commit();
     }
 
     public void setRadioStatus() {
