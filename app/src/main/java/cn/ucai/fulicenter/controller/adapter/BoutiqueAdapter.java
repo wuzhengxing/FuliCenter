@@ -28,7 +28,6 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
 
     Context mContext;
     ArrayList<BoutiqueBean> mList;
-    boolean isMore;
     boolean isDragging;
     String footer;
 
@@ -41,18 +40,11 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public boolean isMore() {
-        return isMore;
-    }
 
     public boolean isDragging() {
         return isDragging;
     }
 
-    public void setMore(boolean more) {
-        isMore = more;
-        notifyDataSetChanged();
-    }
 
     public void setDragging(boolean dragging) {
         isDragging = dragging;
@@ -67,26 +59,13 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View layout;
-        switch (viewType) {
-            case TYPE_Contact:
-                layout = inflater.inflate(R.layout.item_boutique, null);
-                return new BoutiqueViewHolder(layout);
-            case TYPE_FOOTER:
-                layout = inflater.inflate(R.layout.item_footer, null);
-                return new FooterViewHolder(layout);
-        }
-        return null;
+        View layout = LayoutInflater.from(mContext).inflate(R.layout.item_boutique, null);
+        return new BoutiqueViewHolder(layout);
+
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == TYPE_FOOTER) {
-            FooterViewHolder vh = (FooterViewHolder) holder;
-            vh.tvFooter.setText(getFooter());
-            return;
-        }
         BoutiqueViewHolder vh = (BoutiqueViewHolder) holder;
         ImageLoader.downloadImg(mContext, vh.iv, mList.get(position).getImageurl());
         vh.tvTitle.setText(mList.get(position).getTitle());
@@ -96,15 +75,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mList.size() + 1;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == getItemCount() - 1) {
-            return TYPE_FOOTER;
-        }
-        return TYPE_Contact;
+        return mList.size();
     }
 
     public void initData(ArrayList<BoutiqueBean> list) {
@@ -119,7 +90,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    static class BoutiqueViewHolder extends RecyclerView.ViewHolder{
+    static class BoutiqueViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv)
         ImageView iv;
         @BindView(R.id.tvTitle)

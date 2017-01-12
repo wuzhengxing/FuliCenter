@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         fragments[0] = mNewGoodsFragment;
         fragments[1] = mBoutiqueFragment;
         ft.add(R.id.layout_content, mNewGoodsFragment).
-        add(R.id.layout_content, mBoutiqueFragment).show(mNewGoodsFragment).hide(mBoutiqueFragment).commit();
+                add(R.id.layout_content, mBoutiqueFragment).show(mNewGoodsFragment).hide(mBoutiqueFragment).commit();
     }
 
     private void initView() {

@@ -4,7 +4,6 @@ package cn.ucai.fulicenter.controller.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +17,7 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
@@ -45,6 +45,8 @@ public class BoutiqueFragment extends Fragment {
     RecyclerView mrv;
     @BindView(R.id.srl)
     SwipeRefreshLayout msrl;
+    @BindView(R.id.tvMore)
+    TextView tvMore;
 
 
     public BoutiqueFragment() {
@@ -66,24 +68,8 @@ public class BoutiqueFragment extends Fragment {
 
     private void setListener() {
         pullDownListener();
-        pullUpListener();
     }
 
-    private void pullUpListener() {
-        mrv.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                int position = mMnager.findLastVisibleItemPosition();
-                Log.i("main", "position=" + position + "  count=" + (mAdapter.getItemCount() - 1));
-
-                mAdapter.setDragging(newState == RecyclerView.SCROLL_STATE_DRAGGING);
-                if (!mAdapter.isDragging() && mAdapter.isMore() && position == mAdapter.getItemCount() - 1) {
-                    downloadGoodsList(I.ACTION_PULL_UP);
-                }
-            }
-        });
-    }
 
     private void pullDownListener() {
         msrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -107,7 +93,8 @@ public class BoutiqueFragment extends Fragment {
                 Log.e("main", Arrays.toString(result));
                 msrl.setRefreshing(false);
                 mtvRefresh.setVisibility(View.GONE);
-                mAdapter.setMore(true);
+                mrv.setVisibility(View.VISIBLE);
+                tvMore.setVisibility(View.GONE);
                 ArrayList<BoutiqueBean> list = ConvertUtils.array2List(result);
                 if (result != null && result.length > 0) {
                     if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
@@ -115,39 +102,20 @@ public class BoutiqueFragment extends Fragment {
                     } else {
                         mAdapter.addData(list);
                     }
-                    if (list.size() < I.PAGE_SIZE_DEFAULT) {
-                        mAdapter.setMore(false);
-                    }
 
                 } else {
-                    mAdapter.setMore(false);
+                    mrv.setVisibility(View.GONE);
+                    tvMore.setVisibility(View.VISIBLE);
                 }
                 mAdapter.setFooter("没有更多数据");
-                //  ArrayList<BoutiqueBean> list = ConvertUtils.array2List(result);
-                //mAdapter.setMore(list.size() > 0 && list != null);
-               /* if (!mAdapter.isMore()) {
-                    if (action == I.ACTION_PULL_UP) {
-                        mAdapter.setFooter("没有更多商品了");
-                    }
-                    return;
-                }*/
-
-              /*  switch (action) {
-                    case I.ACTION_DOWNLOAD:
-                        mAdapter.initData(list);
-                        break;
-                    case I.ACTION_PULL_DOWN:
-
-                        mAdapter.initData(list);
-                        break;
-                    case I.ACTION_PULL_UP:
-                        mAdapter.addData(list);
-                        break;
-                }*/
             }
 
             @Override
             public void onError(String error) {
+                msrl.setRefreshing(false);
+                mtvRefresh.setVisibility(View.GONE);
+                mrv.setVisibility(View.GONE);
+                tvMore.setVisibility(View.VISIBLE);
                 Log.e("main", "error" + error);
 
             }
@@ -170,4 +138,8 @@ public class BoutiqueFragment extends Fragment {
         mrv.setAdapter(mAdapter);
     }
 
+    @OnClick(R.id.tvMore)
+    public void onClick() {
+        downloadGoodsList(I.ACTION_DOWNLOAD);
+    }
 }

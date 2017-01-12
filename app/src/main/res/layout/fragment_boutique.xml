@@ -12,8 +12,8 @@
         android:background="@color/list_background">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
@@ -28,9 +28,16 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
+            <TextView
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tvMore"
+                android:text="点击重新加载数据"/>
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
