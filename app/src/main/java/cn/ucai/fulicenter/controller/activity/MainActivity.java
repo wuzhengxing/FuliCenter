@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+
         initFragment();
     }
 
@@ -48,8 +49,9 @@ public class MainActivity extends AppCompatActivity {
         mBoutiqueFragment = new BoutiqueFragment();
         fragments[0] = mNewGoodsFragment;
         fragments[1] = mBoutiqueFragment;
-        ft.add(R.id.layout_content, mNewGoodsFragment).
-                add(R.id.layout_content, mBoutiqueFragment).show(mNewGoodsFragment).hide(mBoutiqueFragment).commit();
+        ft.add(R.id.layout_content, mNewGoodsFragment)
+                .add(R.id.layout_content, mBoutiqueFragment)
+                .show(fragments[0]).hide(fragments[1]).commit();
     }
 
     private void initView() {
