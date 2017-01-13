@@ -1,34 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_boutique"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/detail_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#e2340d">
+        android:layout_height="40dp"
+        android:background="@drawable/tb_btn_login_orange_normal">
 
         <ImageView
-            android:layout_alignParentLeft="true"
             android:id="@+id/ivBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back"/>
+            android:src="@drawable/back" />
+
         <TextView
-            android:id="@+id/tvTitle"
-            android:textColor="#e3f4eef2"
-            android:paddingTop="8dp"
-            android:layout_toRightOf="@id/ivBack"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="拯救头发，最美新妆"
-            android:textSize="25sp"/>
-    </LinearLayout>
-    <FrameLayout
-        android:id="@+id/layout_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:text="拯救"
+            android:textSize="25dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:layout_height="50dp"
+        android:layout_below="@id/detail_top"
+        android:background="#f7a604"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_sort_price"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="#f7a604"
+            android:text="价格" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/arrow_order_up" />
+
+        <Button
+            android:id="@+id/btn_sort_addtime"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="#f7a604"
+            android:text="上架时间" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/arrow_order_down" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_category_child_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_button" />
+</RelativeLayout>

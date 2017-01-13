@@ -16,6 +16,7 @@ import java.util.Comparator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.model.utils.ImageLoader;
 import cn.ucai.fulicenter.view.FooterViewHolder;
@@ -143,16 +144,37 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, view);
         }
     }
-  /*  public void sortGoods(final int sortBy){
+   public void sortGoods(final int sortBy){
         Collections.sort(mList, new Comparator<NewGoodsBean>() {
             @Override
-            public int compare(NewGoodsBean newGoodsBean, NewGoodsBean t1) {
+            public int compare(NewGoodsBean leftBean, NewGoodsBean rightBean) {
+                int result=0;
                 switch (sortBy){
-
+                    case I.SORT_BY_ADDTIME_ASC:
+                        result=(int)(leftBean.getAddTime()-rightBean.getAddTime());
+                        break;
+                    case I.SORT_BY_ADDTIME_DESC:
+                        result=(int)(rightBean.getAddTime()-leftBean.getAddTime());
+                        break;
+                    case I.SORT_BY_PRICE_ASC:
+                        result=getPrice(leftBean.getCurrencyPrice())-getPrice(rightBean.getCurrencyPrice());
+                        break;
+                    case I.SORT_BY_PRICE_DESC:
+                        result=getPrice(rightBean.getCurrencyPrice())-getPrice(leftBean.getCurrencyPrice());
+                        break;
                 }
-                return 0;
+                return result;
+
             }
+
         });
-    }*/
+       notifyDataSetChanged();
+    }
+    public int getPrice(String price){
+        int b=0;
+        b=Integer.parseInt(price.substring(price.indexOf("￥")+1));
+
+        return b;
+    }
 
 }

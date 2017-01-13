@@ -150,5 +150,8 @@ public class NewGoodsFragment extends Fragment {
         mAdapter = new NewGoodsAdapter(getContext(), mList);
         mrv.setAdapter(mAdapter);
     }
+    public void sort(int sort){
+        mAdapter.sortGoods(sort);
+    }
 
 }
