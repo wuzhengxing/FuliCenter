@@ -2,7 +2,6 @@ package cn.ucai.fulicenter.controller.adapter;
 
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -18,6 +17,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.model.utils.ImageLoader;
+import cn.ucai.fulicenter.view.MFGT;
 
 /**
  * Created by Administrator on 2017/1/13.
@@ -105,7 +105,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean b, View view, ViewGroup viewGroup) {
         ChildViewHolder holder = null;
         if (view == null) {
             view = View.inflate(mContext, R.layout.item_category_child, null);
@@ -116,6 +116,12 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         }
         holder.tvCategoryChildName.setText(getChild(groupPosition, childPosition).getName());
         ImageLoader.downloadImg(mContext, holder.ivCategoryChildThumb, getChild(groupPosition, childPosition).getImageUrl());
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MFGT.gotoCategoryChild(mContext,getChild(groupPosition,childPosition).getId());
+            }
+        });
         return view;
     }
 

@@ -42,4 +42,10 @@ public class MFGT {
         intent.putExtra(I.GoodsDetails.KEY_GOODS_ID,goodsId);
         startActivity((Activity) context,intent);
     }
+
+    public static void gotoCategoryChild(Context context, int catId) {
+        Intent intent=new Intent(context, BoutiqueChildActivity.class);
+        intent.putExtra(I.NewAndBoutiqueGoods.CAT_ID,catId);
+        startActivity((Activity)context,intent);
+    }
 }

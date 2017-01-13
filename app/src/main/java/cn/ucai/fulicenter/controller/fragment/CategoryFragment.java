@@ -14,6 +14,7 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
@@ -67,7 +68,7 @@ public class CategoryFragment extends Fragment {
                     mGroupList.addAll(groupList);
                     for (int i = 0; i < groupList.size(); i++) {
                         mChildList.add(new ArrayList<CategoryChildBean>());
-                        downloadChild(groupList.get(i).getId(),i);
+                        downloadChild(groupList.get(i).getId(), i);
                     }
                 } else {
                     initView(false);
@@ -82,7 +83,7 @@ public class CategoryFragment extends Fragment {
         });
     }
 
-    private void downloadChild(int id, final int index) {
+   private void downloadChild(int id, final int index) {
         model.downData(getContext(), id, new OnCompletionListener<CategoryChildBean[]>() {
             @Override
             public void onSuccess(CategoryChildBean[] result) {
@@ -111,4 +112,8 @@ public class CategoryFragment extends Fragment {
     }
 
 
+   /* @OnClick(R.id.tv_noMore)
+    public void onClick() {
+        initData();
+    }*/
 }

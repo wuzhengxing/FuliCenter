@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -141,14 +143,16 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, view);
         }
     }
+  /*  public void sortGoods(final int sortBy){
+        Collections.sort(mList, new Comparator<NewGoodsBean>() {
+            @Override
+            public int compare(NewGoodsBean newGoodsBean, NewGoodsBean t1) {
+                switch (sortBy){
 
-   /* static class FooterViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tvFooter)
-        TextView tvFooter;
-
-        FooterViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
+                }
+                return 0;
+            }
+        });
     }*/
+
 }
