@@ -51,13 +51,13 @@ public class MainActivity extends AppCompatActivity {
         ft = getSupportFragmentManager().beginTransaction();
         mNewGoodsFragment = new NewGoodsFragment();
         mBoutiqueFragment = new BoutiqueFragment();
-        mCategoryFragment=new CategoryFragment();
+        mCategoryFragment = new CategoryFragment();
         fragments[0] = mNewGoodsFragment;
         fragments[1] = mBoutiqueFragment;
-        fragments[2]=mCategoryFragment;
+        fragments[2] = mCategoryFragment;
         ft.add(R.id.layout_content, mNewGoodsFragment)
                 .add(R.id.layout_content, mBoutiqueFragment)
-                .add(R.id.layout_content,mCategoryFragment)
+                .add(R.id.layout_content, mCategoryFragment)
                 .show(mNewGoodsFragment)
                 .hide(mBoutiqueFragment)
                 .hide(mCategoryFragment)
@@ -88,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 index = 3;
                 break;
             case R.id.layout_personal_center:
-                if(FuLiCenterApplication.getUser()==null){
+                if (FuLiCenterApplication.getUser() == null) {
                     MFGT.gotoLogin(this);
-                }else {
+                } else {
                     index = 4;
                 }
                 break;
