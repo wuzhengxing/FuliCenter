@@ -13,6 +13,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/back"/>
         <TextView
+            android:hint="password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -23,11 +24,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
+            android:hint="用户名"
             android:id="@+id/etUserName"
             android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="用户名"/>
+           />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,11 +41,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
+            android:inputType="numberPassword"
+            android:hint="密码"
             android:id="@+id/etPassword"
             android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="密码"/>
+            />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
