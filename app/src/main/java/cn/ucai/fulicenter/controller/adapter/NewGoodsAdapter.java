@@ -147,7 +147,7 @@ public class NewGoodsAdapter extends RecyclerView.Adapter {
    public void sortGoods(final int sortBy){
         Collections.sort(mList, new Comparator<NewGoodsBean>() {
             @Override
-            public int compare(NewGoodsBean leftBean, NewGoodsBean rightBean) {
+            public int compare(NewGoodsBean rightBean, NewGoodsBean leftBean) {
                 int result=0;
                 switch (sortBy){
                     case I.SORT_BY_ADDTIME_ASC:

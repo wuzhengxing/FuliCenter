@@ -51,6 +51,7 @@ public class CategoryFragment extends Fragment {
         mChildList = new ArrayList<>();
         mAdapter = new CategoryAdapter(getContext(), mGroupList, mChildList);
         elvCategory.setAdapter(mAdapter);
+        elvCategory.setGroupIndicator(null);//去掉ExpandableListView自带的图标
         initView(false);
         initData();
         return view;

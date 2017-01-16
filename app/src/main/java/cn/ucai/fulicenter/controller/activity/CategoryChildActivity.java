@@ -8,12 +8,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
+import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.controller.fragment.NewGoodsFragment;
+import cn.ucai.fulicenter.view.CatFliterButton;
 import cn.ucai.fulicenter.view.MFGT;
 
 public class CategoryChildActivity extends AppCompatActivity {
@@ -23,8 +27,6 @@ public class CategoryChildActivity extends AppCompatActivity {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
-    @BindView(R.id.tvName)
-    TextView tvName;
     @BindView(R.id.btn_sort_price)
     Button btnSortPrice;
     @BindView(R.id.btn_sort_addtime)
@@ -33,6 +35,8 @@ public class CategoryChildActivity extends AppCompatActivity {
     ImageView sortPrice;
     @BindView(R.id.sort_addTime)
     ImageView sortAddTime;
+    @BindView(R.id.cat_fliter_button)
+    CatFliterButton catFliterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,9 @@ public class CategoryChildActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.layout_category_child_fragment, mFragment)
                 .commit();
+        String groupName = getIntent().getStringExtra(I.CategoryGroup.NAME);
+        ArrayList<CategoryChildBean> list = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.DATA);
+        catFliterButton.initCatFliterButton(groupName, list);
     }
 
 
@@ -62,8 +69,8 @@ public class CategoryChildActivity extends AppCompatActivity {
                     sort = I.SORT_BY_PRICE_DESC;
                     right = getResources().getDrawable(R.drawable.arrow_order_down);
                 }
-                right.setBounds(0,0,right.getIntrinsicWidth(),right.getIntrinsicHeight());
-                btnSortPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,right,null);
+                right.setBounds(0, 0, right.getIntrinsicWidth(), right.getIntrinsicHeight());
+                btnSortPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, right, null);
                 sortPrice.setVisibility(View.GONE);
                 priceArc = !priceArc;
                 break;
@@ -75,8 +82,8 @@ public class CategoryChildActivity extends AppCompatActivity {
                     sort = I.SORT_BY_ADDTIME_DESC;
                     right = getResources().getDrawable(R.drawable.arrow_order_down);
                 }
-                right.setBounds(0,0,right.getIntrinsicWidth(),right.getIntrinsicHeight());
-                btnSortAddtime.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,right,null);
+                right.setBounds(0, 0, right.getIntrinsicWidth(), right.getIntrinsicHeight());
+                btnSortAddtime.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, right, null);
                 sortAddTime.setVisibility(View.GONE);
                 addTimeArc = !addTimeArc;
                 break;

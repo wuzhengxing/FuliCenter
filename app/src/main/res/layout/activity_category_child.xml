@@ -16,16 +16,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back" />
-
-        <TextView
-            android:id="@+id/tvName"
+        <cn.ucai.fulicenter.view.CatFliterButton
+            android:id="@+id/cat_fliter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:text="拯救"
-            android:textSize="25dp" />
+            android:text="分类"
+            android:textSize="20sp"
+            android:textColor="#f4eeee"
+            android:drawableRight="@drawable/arrow2_up"/>
+
 
     </RelativeLayout>
 
@@ -46,6 +47,7 @@
             android:text="价格" />
 
         <ImageView
+            android:id="@+id/sort_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -60,6 +62,7 @@
             android:text="上架时间" />
 
         <ImageView
+            android:id="@+id/sort_addTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
