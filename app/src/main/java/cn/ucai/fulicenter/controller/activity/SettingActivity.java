@@ -2,6 +2,8 @@ package cn.ucai.fulicenter.controller.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,14 +22,16 @@ public class SettingActivity extends AppCompatActivity {
 
     @BindView(R.id.tv_user_avatar)
     TextView tvUserAvatar;
-    @BindView(R.id.tv_user_name)
-    TextView tvUserName;
-    @BindView(R.id.tv_user_nick)
-    TextView tvUserNick;
     @BindView(R.id.activity_setting)
     RelativeLayout activitySetting;
     @BindView(R.id.iv_user_avatar)
     ImageView ivUserAvatar;
+    @BindView(R.id.tv_user_name)
+    TextView tvUserName;
+    @BindView(R.id.tv_user_nick)
+    TextView tvUserNick;
+    @BindView(R.id.bt_quit)
+    Button btQuit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,6 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void loadUserInfo(User user) {
-        //ImageLoader.downloadImg(getContext(), ivUserAvatar, user.getAvatarPath());
         ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), this, ivUserAvatar);
         tvUserName.setText(user.getMuserName());
         tvUserNick.setText(user.getMuserNick());
@@ -62,5 +65,13 @@ public class SettingActivity extends AppCompatActivity {
         MFGT.gotoLogin(this);
         MFGT.finish(this);
 
+    }
+
+    @OnClick(R.id.rl_user_nick)
+    public void updateNick() {
+        String nick = tvUserNick.getText().toString().trim();
+        if(TextUtils.isEmpty(nick)){
+
+        }
     }
 }

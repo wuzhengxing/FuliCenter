@@ -10,4 +10,5 @@ import android.media.MediaPlayer;
 public interface IModelUser {
     void login(Context context, String userName, String password,OnCompletionListener<String> list);
     void register(Context context, String userName,String nick, String password,OnCompletionListener<String> list);
+    void updateNick(Context context, String userName,String nick,OnCompletionListener<String> list);
 }
