@@ -131,7 +131,6 @@ public class CatFliterButton extends Button {
                 holder = (CatFliterViewHolder) view.getTag();
             }
             holder.bind(i);
-
             return view;
         }
         class CatFliterViewHolder {

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -14,6 +15,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.User;
+import cn.ucai.fulicenter.model.dao.UserDao;
 import cn.ucai.fulicenter.model.net.IModelUser;
 import cn.ucai.fulicenter.model.net.ModelUser;
 import cn.ucai.fulicenter.model.net.OnCompletionListener;
@@ -77,6 +79,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (result != null) {
                         if (result.getRetData() != null) {
                             User user= (User) result.getRetData();
+                            boolean b = UserDao.getInstance().savaUser(user);
+                            Log.e("main","b="+b);
                             SharedPrefrenceUtils.getInstance(LoginActivity.this).saveUser(user.getMuserName());
                             MFGT.finish(LoginActivity.this);
                         } else {
