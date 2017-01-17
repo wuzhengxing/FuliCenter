@@ -33,4 +33,7 @@ public class SharedPrefrenceUtils {
     public static String getUser() {
         return preferences.getString(SHARE_PREFRENCES_USER_USERNAME, null);
     }
+    public static void removeUser(){
+        preferences.edit().remove(SHARE_PREFRENCES_USER_USERNAME).commit();
+    }
 }

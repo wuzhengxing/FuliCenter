@@ -1,9 +1,11 @@
 package cn.ucai.fulicenter.controller.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -11,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.FuLiCenterApplication;
+import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.controller.fragment.BoutiqueFragment;
 import cn.ucai.fulicenter.controller.fragment.CategoryFragment;
 import cn.ucai.fulicenter.controller.fragment.NewGoodsFragment;
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initFragment() {
-        ft = getSupportFragmentManager().beginTransaction();
         mNewGoodsFragment = new NewGoodsFragment();
         mBoutiqueFragment = new BoutiqueFragment();
         mCategoryFragment = new CategoryFragment();
@@ -59,14 +61,15 @@ public class MainActivity extends AppCompatActivity {
         fragments[1] = mBoutiqueFragment;
         fragments[2] = mCategoryFragment;
         fragments[4] = mPersonalCenterFragment;
-        ft.add(R.id.layout_content, mNewGoodsFragment)
-                .add(R.id.layout_content, mBoutiqueFragment)
-                .add(R.id.layout_content,mCategoryFragment)
-                .add(R.id.layout_content, mPersonalCenterFragment)
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.layout_content, mNewGoodsFragment)
+                // .add(R.id.layout_content, mBoutiqueFragment)
+                //.add(R.id.layout_content,mCategoryFragment)
+                // .add(R.id.layout_content, mPersonalCenterFragment)
                 .show(mNewGoodsFragment)
-                .hide(fragments[1])
-                .hide(fragments[2])
-                .hide(fragments[4])
+                // .hide(fragments[1])
+                //.hide(fragments[2])
+                //.hide(fragments[4])
                 .commit();
     }
 
@@ -108,7 +111,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setFragment() {
-        getSupportFragmentManager().beginTransaction().show(fragments[index]).hide(fragments[currentIndex]).commit();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.hide(fragments[currentIndex]);
+        if (!fragments[index].isAdded()) {
+            ft.add(R.id.layout_content, fragments[index]);
+        }
+        ft.show(fragments[index]).commit();
+        // getSupportFragmentManager().beginTransaction().show(fragments[index]).hide(fragments[currentIndex]).commit();
     }
 
     public void setRadioStatus() {
@@ -120,5 +129,28 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         currentIndex = index;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("main", "currentIndex=" + currentIndex + ",index=" + index + ",user=" +
+                FuLiCenterApplication.getUser());
+        if(FuLiCenterApplication.getUser()==null && index==4){
+            index=0;
+        }
+        setFragment();
+        setRadioStatus();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("main","requestCode="+requestCode+"resultCode="+resultCode);
+        if (resultCode == RESULT_OK && requestCode == I.REQUEST_CODE_LOGIN) {
+            index = 4;
+            setFragment();
+            setRadioStatus();
+        }
     }
 }

@@ -3,6 +3,7 @@ package cn.ucai.fulicenter.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ import cn.ucai.fulicenter.controller.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.controller.activity.LoginActivity;
 import cn.ucai.fulicenter.controller.activity.MainActivity;
 import cn.ucai.fulicenter.controller.activity.RegisterActivity;
+import cn.ucai.fulicenter.controller.activity.SettingActivity;
 
 /**
  * Created by Administrator on 2017/1/10.
@@ -59,11 +61,15 @@ public class MFGT {
         startActivity((Activity)context,intent);
     }
 
-    public static void gotoLogin(Activity mainActivity) {
-        startActivity(mainActivity, LoginActivity.class);
+    public static void gotoLogin(Activity context) {
+        context.startActivityForResult(new Intent(context,LoginActivity.class),I.REQUEST_CODE_LOGIN);
     }
 
     public static void gotoRegister(Activity loginActivity) {
         startActivity(loginActivity, RegisterActivity.class);
+    }
+
+    public static void gotoSetting(Activity activity) {
+        startActivity(activity, SettingActivity.class);
     }
 }
