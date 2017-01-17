@@ -54,19 +54,19 @@ public class MainActivity extends AppCompatActivity {
         mNewGoodsFragment = new NewGoodsFragment();
         mBoutiqueFragment = new BoutiqueFragment();
         mCategoryFragment = new CategoryFragment();
-        mPersonalCenterFragment=new PersonalCenterFragment();
+        mPersonalCenterFragment = new PersonalCenterFragment();
         fragments[0] = mNewGoodsFragment;
         fragments[1] = mBoutiqueFragment;
         fragments[2] = mCategoryFragment;
-        fragments[4]=mPersonalCenterFragment;
+        fragments[4] = mPersonalCenterFragment;
         ft.add(R.id.layout_content, mNewGoodsFragment)
                 .add(R.id.layout_content, mBoutiqueFragment)
-                .add(R.id.layout_content, mCategoryFragment)
-                .add(R.id.layout_content,mPersonalCenterFragment)
+                .add(R.id.layout_content,mCategoryFragment)
+                .add(R.id.layout_content, mPersonalCenterFragment)
                 .show(mNewGoodsFragment)
-                .hide(mBoutiqueFragment)
-                .hide(mCategoryFragment)
-                .hide(mPersonalCenterFragment)
+                .hide(fragments[1])
+                .hide(fragments[2])
+                .hide(fragments[4])
                 .commit();
     }
 
