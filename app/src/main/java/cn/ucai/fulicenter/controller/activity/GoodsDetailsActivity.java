@@ -21,15 +21,17 @@ import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.model.net.IModelGoods;
 import cn.ucai.fulicenter.model.net.ModelGoods;
 import cn.ucai.fulicenter.model.net.OnCompletionListener;
+import cn.ucai.fulicenter.model.utils.CommonUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.MFGT;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
 
 public class GoodsDetailsActivity extends AppCompatActivity {
-    final static String TAG="GoodsDetailsActivity";
+    final static String TAG = "GoodsDetailsActivity";
     IModelGoods model;
     int goodsId;
     boolean isCollect;
+    User user;
 
     @BindView(R.id.tv_good_name_english)
     TextView tvGoodNameEnglish;
@@ -113,11 +115,35 @@ public class GoodsDetailsActivity extends AppCompatActivity {
     @OnClick(R.id.iv_good_collect)
     public void onClick() {
         User user = FuLiCenterApplication.getUser();
-        if(user!=null){
-
-        }else {
+        if (user != null) {
+            setCollect();
+        } else {
             MFGT.gotoLogin(this);
         }
+    }
+
+    private void setCollect() {
+        ivGoodCollect.setEnabled(false);
+        model.setCollect(this, goodsId, user.getMuserName(),
+                isCollect ? I.ACTION_DELETE_COLLECT : I.ACTION_ADD_COLLECT,
+                new OnCompletionListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if (result != null && result.isSuccess()) {
+                            isCollect = !isCollect;
+                            setCollectStatus();
+                            CommonUtils.showLongToast(result.getMsg());
+                        }else {
+                            ivGoodCollect.setEnabled(true);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.i(TAG, "error:" + error);
+                        ivGoodCollect.setEnabled(true);
+                    }
+                });
     }
 
     @Override
@@ -127,8 +153,9 @@ public class GoodsDetailsActivity extends AppCompatActivity {
     }
 
     private void initCollectStatus() {
-        User user = FuLiCenterApplication.getUser();
-        if(user!=null){
+        ivGoodCollect.setEnabled(false);
+        user = FuLiCenterApplication.getUser();
+        if (user != null) {
             model.isCollect(this, goodsId, user.getMuserName(), new OnCompletionListener<MessageBean>() {
                 @Override
                 public void onSuccess(MessageBean result) {
@@ -142,7 +169,7 @@ public class GoodsDetailsActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(String error) {
-                    Log.i(TAG,"error:"+error);
+                    Log.i(TAG, "error:" + error);
                     setCollectStatus();
                 }
             });
@@ -151,12 +178,17 @@ public class GoodsDetailsActivity extends AppCompatActivity {
     }
 
     private void setCollectStatus() {
-        if(isCollect){
+        if (isCollect) {
             ivGoodCollect.setImageResource(R.mipmap.bg_collect_out);
-        }else {
+        } else {
             ivGoodCollect.setImageResource(R.mipmap.bg_collect_in);
         }
+        ivGoodCollect.setEnabled(true);
     }
 
 
+    @OnClick(R.id.ivBack)
+    public void onClickBack() {
+        MFGT.finish(this);
+    }
 }
