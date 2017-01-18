@@ -169,7 +169,7 @@ public class GoodsDetailsActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(String error) {
-                    Log.i(TAG, "error:" + error);
+                    Log.i("main", "GoodsDetailsActivity.initCollectStatus().error:" + error);
                     setCollectStatus();
                 }
             });

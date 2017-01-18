@@ -22,6 +22,7 @@ import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.model.net.IModelUser;
+import cn.ucai.fulicenter.model.net.ModelUser;
 import cn.ucai.fulicenter.model.net.OnCompletionListener;
 import cn.ucai.fulicenter.model.utils.CommonUtils;
 import cn.ucai.fulicenter.model.utils.ImageLoader;
@@ -31,7 +32,7 @@ import cn.ucai.fulicenter.model.utils.SharedPrefrenceUtils;
 import cn.ucai.fulicenter.view.MFGT;
 
 public class SettingActivity extends AppCompatActivity {
-    User user;
+    final static String TAG = "SettingActivity";
     IModelUser model;
     OnSetAvatarListener avatarListener;
     @BindView(R.id.tv_user_avatar)
@@ -95,23 +96,25 @@ public class SettingActivity extends AppCompatActivity {
         if (requestCode == I.REQUEST_CODE_NICK) {
             tvNick.setText(FuLiCenterApplication.getUser().getMuserNick());
         } else if (requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO) {
-            //uploadAvatar();
+            uploadAvatar();
         }
-        // avatarListener.setAvatar(requestCode, data, ivUserAvatar);
+        avatarListener.setAvatar(requestCode, data, ivUserAvatar);
 
     }
 
 
-   /* private void uploadAvatar() {
+    private void uploadAvatar() {
+        User user = FuLiCenterApplication.getUser();
+        model = new ModelUser();
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage(getString(R.string.update_user_avatar));
         dialog.show();
         File file = null;
-        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        file = new File(dir, user.getMuserName() + ".jpg");
-        *//*file = new File(String.valueOf(OnSetAvatarListener.getAvatarFile
-                (this, OnSetAvatarListener.getAvatarPath
-                        (this, "/" + user.getMuserName() + user.getMavatarSuffix()))));*//*
+       /* File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        file = new File(dir, user.getMuserName() + ".jpg");*/
+        file = new File(String.valueOf(OnSetAvatarListener.getAvatarFile
+                (this, I.AVATAR_TYPE_USER_PATH + "/" + user.getMuserName() + user.getMavatarSuffix())));
+        Log.i("main", "SettingActivity.file:" + file.getAbsolutePath());
         model.updateAvatar(this, user.getMuserName(), file, new OnCompletionListener<String>() {
             @Override
             public void onSuccess(String str) {
@@ -147,7 +150,7 @@ public class SettingActivity extends AppCompatActivity {
 
     @OnClick(R.id.rl_user_avatar)
     public void updateAvatar() {
-        user = FuLiCenterApplication.getUser();
-        avatarListener = new OnSetAvatarListener(this, R.id.rl_user_avatar, user.getMuserName(), I.AVATAR_TYPE_USER_PATH);
-    }*/
+
+        avatarListener = new OnSetAvatarListener(this, R.id.rl_user_avatar, FuLiCenterApplication.getUser().getMuserName(), I.AVATAR_TYPE_USER_PATH);
+    }
 }
