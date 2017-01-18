@@ -94,13 +94,13 @@ public class SettingActivity extends AppCompatActivity {
         }
         if (requestCode == I.REQUEST_CODE_NICK) {
             tvNick.setText(FuLiCenterApplication.getUser().getMuserNick());
-        }
-        else if (requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO) {
+        } else if (requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO) {
             //uploadAvatar();
         }
-       // avatarListener.setAvatar(requestCode, data, ivUserAvatar);
+        // avatarListener.setAvatar(requestCode, data, ivUserAvatar);
 
     }
+
 
    /* private void uploadAvatar() {
         final ProgressDialog dialog = new ProgressDialog(this);
