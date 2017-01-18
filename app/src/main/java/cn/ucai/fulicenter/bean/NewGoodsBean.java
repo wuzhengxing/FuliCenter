@@ -2,9 +2,14 @@ package cn.ucai.fulicenter.bean;
 
 import java.io.Serializable;
 
+/**
+ * Created by Administrator on 2017/1/9.
+ */
+
 public class NewGoodsBean implements Serializable {
 
-    /**1
+    /**
+     *
      * id : 1
      * goodsId : 7672
      * catId : 0
@@ -25,7 +30,6 @@ public class NewGoodsBean implements Serializable {
      * addTime : 1442389445    
      */
 
-
     private int id;
     private int goodsId;
     private int catId;
@@ -43,7 +47,10 @@ public class NewGoodsBean implements Serializable {
     private String colorName;
     private String colorCode;
     private String colorUrl;
-    private String addTime;
+    private long addTime;
+
+    public NewGoodsBean() {
+    }
 
     public int getId() {
         return id;
@@ -181,11 +188,11 @@ public class NewGoodsBean implements Serializable {
         this.colorUrl = colorUrl;
     }
 
-    public String getAddTime() {
+    public long getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(String addTime) {
+    public void setAddTime(long addTime) {
         this.addTime = addTime;
     }
 

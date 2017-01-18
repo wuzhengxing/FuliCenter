@@ -28,6 +28,8 @@ public class User {
     private int mavatarType;
     private String mavatarLastUpdateTime;
 
+
+
     public String getMuserName() {
         return muserName;
     }
@@ -115,4 +117,5 @@ public class User {
                 ", mavatarLastUpdateTime='" + mavatarLastUpdateTime + '\'' +
                 '}';
     }
+
 }
