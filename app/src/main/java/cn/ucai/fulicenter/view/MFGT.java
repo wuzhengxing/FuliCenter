@@ -19,6 +19,7 @@ import cn.ucai.fulicenter.controller.activity.LoginActivity;
 import cn.ucai.fulicenter.controller.activity.MainActivity;
 import cn.ucai.fulicenter.controller.activity.RegisterActivity;
 import cn.ucai.fulicenter.controller.activity.SettingActivity;
+import cn.ucai.fulicenter.controller.activity.UpdateNickActivity;
 
 /**
  * Created by Administrator on 2017/1/10.
@@ -71,5 +72,9 @@ public class MFGT {
 
     public static void gotoSetting(Activity activity) {
         startActivity(activity, SettingActivity.class);
+    }
+
+    public static void gotoUpdateNick(Activity activity) {
+        activity.startActivityForResult(new Intent(activity,UpdateNickActivity.class),I.REQUEST_CODE_NICK);
     }
 }
