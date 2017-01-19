@@ -13,10 +13,16 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.bean.CollectBean;
-import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.bean.MessageBean;
+import cn.ucai.fulicenter.bean.User;
+import cn.ucai.fulicenter.model.net.IModelGoods;
+import cn.ucai.fulicenter.model.net.ModelGoods;
+import cn.ucai.fulicenter.model.net.OnCompletionListener;
 import cn.ucai.fulicenter.model.utils.ImageLoader;
 import cn.ucai.fulicenter.view.FooterViewHolder;
 import cn.ucai.fulicenter.view.MFGT;
@@ -34,6 +40,9 @@ public class CollectAdapter extends RecyclerView.Adapter {
     boolean isMore;
     boolean isDragging;
     String footer;
+    IModelGoods model;
+    User user;
+
 
     public String getFooter() {
         return footer;
@@ -66,6 +75,8 @@ public class CollectAdapter extends RecyclerView.Adapter {
     public CollectAdapter(Context mContext, ArrayList<CollectBean> mList) {
         this.mContext = mContext;
         this.mList = mList;
+        model = new ModelGoods();
+        user= FuLiCenterApplication.getUser();
     }
 
     @Override
@@ -91,14 +102,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
             return;
         }
         CollectViewHolder vh = (CollectViewHolder) holder;
-        ImageLoader.downloadImg(mContext, vh.ivGoodsThumb, mList.get(position).getGoodsThumb());
-        vh.tvGoodsName.setText(mList.get(position).getGoodsName());
-        vh.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MFGT.gotoGoodsDetails(mContext, mList.get(position).getGoodsId());
-            }
-        });
+        vh.bind(position);
     }
 
     @Override
@@ -127,7 +131,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
     }
 
 
-    class CollectViewHolder extends RecyclerView.ViewHolder{
+    class CollectViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_collect_del)
         ImageView ivCollectDel;
         @BindView(R.id.ivGoodsThumb)
@@ -137,9 +141,41 @@ public class CollectAdapter extends RecyclerView.Adapter {
         @BindView(R.id.layout_goods)
         LinearLayout layoutGoods;
 
+        int itemPosition;
+
         CollectViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
+
+        public void bind(final int position) {
+            ImageLoader.downloadImg(mContext, ivGoodsThumb, mList.get(position).getGoodsThumb());
+            tvGoodsName.setText(mList.get(position).getGoodsName());
+            itemPosition = position;
+        }
+
+        @OnClick(R.id.layout_goods)
+        public void getDetails() {
+            MFGT.gotoGoodsDetails(mContext, mList.get(itemPosition).getGoodsId());
+        }
+
+        @OnClick(R.id.iv_collect_del)
+        public void setCollect() {
+            model.setCollect(mContext, mList.get(itemPosition).getGoodsId(), user.getMuserName(), I.ACTION_DELETE_COLLECT, new OnCompletionListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if(result!=null && result.isSuccess()){
+                        mList.remove(itemPosition);
+                        notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+
+                }
+            });
+        }
+
     }
 }
