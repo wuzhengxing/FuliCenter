@@ -72,8 +72,8 @@ public class PersonalCenterFragment extends Fragment {
                     @Override
                     public void onSuccess(MessageBean result) {
                         if (result != null && result.isSuccess()) {
-                          loadCollectCount(result.getMsg());
-                        }else {
+                            loadCollectCount(result.getMsg());
+                        } else {
                             loadCollectCount("0");
                         }
                     }
@@ -93,7 +93,7 @@ public class PersonalCenterFragment extends Fragment {
     }
 
     private void loadCollectCount(String s) {
-         tvCollectCount.setText(s);
+        tvCollectCount.setText(s);
     }
 
     @OnClick({R.id.tv_center_settings, R.id.center_user_info})
@@ -104,5 +104,10 @@ public class PersonalCenterFragment extends Fragment {
                 MFGT.gotoSetting(getActivity());
                 break;
         }
+    }
+
+    @OnClick(R.id.layout_center_collect)
+    public void onClick() {
+        MFGT.gotoCollect(getActivity());
     }
 }

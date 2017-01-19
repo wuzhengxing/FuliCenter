@@ -65,6 +65,10 @@ public class NewGoodsFragment extends Fragment {
 
     private void setListener() {
         pullDownListener();
+        pullUpListener();
+    }
+
+    private void pullUpListener() {
         mrv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
