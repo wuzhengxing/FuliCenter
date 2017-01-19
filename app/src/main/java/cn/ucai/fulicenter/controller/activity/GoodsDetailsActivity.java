@@ -20,7 +20,9 @@ import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.model.net.IModelGoods;
+import cn.ucai.fulicenter.model.net.IModelUser;
 import cn.ucai.fulicenter.model.net.ModelGoods;
+import cn.ucai.fulicenter.model.net.ModelUser;
 import cn.ucai.fulicenter.model.net.OnCompletionListener;
 import cn.ucai.fulicenter.model.utils.CommonUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
@@ -33,6 +35,7 @@ public class GoodsDetailsActivity extends AppCompatActivity {
     int goodsId;
     boolean isCollect;
     User user;
+    IModelUser userModel;
 
     @BindView(R.id.tv_good_name_english)
     TextView tvGoodNameEnglish;
@@ -134,8 +137,8 @@ public class GoodsDetailsActivity extends AppCompatActivity {
                             isCollect = !isCollect;
                             setCollectStatus();
                             CommonUtils.showLongToast(result.getMsg());
-                            sendBroadcast(new Intent(I.BROADCAST_UPDATE_COLLECT).putExtra(I.Collect.GOODS_ID,goodsId));
-                        }else {
+                            sendBroadcast(new Intent(I.BROADCAST_UPDATE_COLLECT).putExtra(I.Collect.GOODS_ID, goodsId));
+                        } else {
                             ivGoodCollect.setEnabled(true);
                         }
                     }
@@ -192,5 +195,24 @@ public class GoodsDetailsActivity extends AppCompatActivity {
     @OnClick(R.id.ivBack)
     public void onClickBack() {
         MFGT.finish(this);
+    }
+
+    @OnClick(R.id.iv_cart)
+    public void addCart() {
+        userModel=new ModelUser();
+        User user = FuLiCenterApplication.getUser();
+        userModel.updateCart(this, I.ACTION_CART_ADD, user.getMuserName(), goodsId, 1, 0, new OnCompletionListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean result) {
+                if(result!=null && result.isSuccess()){
+                    CommonUtils.showLongToast(R.string.add_goods_success);
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
 }
