@@ -76,7 +76,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         this.mContext = mContext;
         this.mList = mList;
         model = new ModelGoods();
-        user= FuLiCenterApplication.getUser();
+        user = FuLiCenterApplication.getUser();
     }
 
     @Override
@@ -92,6 +92,13 @@ public class CollectAdapter extends RecyclerView.Adapter {
                 return new FooterViewHolder(layout);
         }
         return null;
+    }
+
+    public void deleteItem(int goodsId) {
+        if (goodsId != 0) {
+            mList.remove(new CollectBean(goodsId));
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -164,7 +171,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
             model.setCollect(mContext, mList.get(itemPosition).getGoodsId(), user.getMuserName(), I.ACTION_DELETE_COLLECT, new OnCompletionListener<MessageBean>() {
                 @Override
                 public void onSuccess(MessageBean result) {
-                    if(result!=null && result.isSuccess()){
+                    if (result != null && result.isSuccess()) {
                         mList.remove(itemPosition);
                         notifyDataSetChanged();
                     }

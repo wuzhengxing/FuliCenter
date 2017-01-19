@@ -1,5 +1,9 @@
 package cn.ucai.fulicenter.controller.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +40,7 @@ public class CollectsActivity extends AppCompatActivity {
     GridLayoutManager gm;
     CollectAdapter mAdapter;
     ArrayList<CollectBean> mList;
-
+   UpdateReceiver receiver;
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -55,6 +59,7 @@ public class CollectsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_collects);
         ButterKnife.bind(this);
         DisplayUtils.initBackWithTitle(this, "个人收藏");
+        receiver=new UpdateReceiver();
         user = FuLiCenterApplication.getUser();
         if (user == null) {
 
@@ -62,7 +67,13 @@ public class CollectsActivity extends AppCompatActivity {
             initData(I.ACTION_DOWNLOAD);
             initView();
             setListener();
+            setReceiver();
         }
+    }
+
+    private void setReceiver() {
+        IntentFilter filter=new IntentFilter(I.BROADCAST_UPDATE_COLLECT);
+        registerReceiver(receiver,filter);
     }
 
 
@@ -151,5 +162,14 @@ public class CollectsActivity extends AppCompatActivity {
                 initData(I.ACTION_PULL_DOWN);
             }
         });
+    }
+
+    class UpdateReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int goodsId = intent.getIntExtra(I.Collect.GOODS_ID, 0);
+            mAdapter.deleteItem(goodsId);
+        }
     }
 }
