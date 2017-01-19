@@ -82,4 +82,8 @@ public class MFGT {
     public static void gotoCollect(Activity activity) {
         startActivity(activity, CollectsActivity.class);
     }
+
+    public static void gotoLogin(Activity activity, int code) {
+        activity.startActivityForResult(new Intent(activity,LoginActivity.class),code);
+    }
 }

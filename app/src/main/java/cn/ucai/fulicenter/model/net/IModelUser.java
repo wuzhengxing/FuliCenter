@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 
 import java.io.File;
 
+import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.CollectBean;
 import cn.ucai.fulicenter.bean.MessageBean;
@@ -19,7 +20,7 @@ public interface IModelUser {
     void updateNick(Context context, String userName,String nick,OnCompletionListener<String> listener);
     void collectCount(Context context, String userName,OnCompletionListener<MessageBean> list);
     void updateAvatar(Context context, String userName, File file, OnCompletionListener<String> listener);
-    void getCollect(Context context, String userName,int pageId,int pageSize, OnCompletionListener<CollectBean[]> listener);
+    void getCollect(Context context, String userName, int pageId, int pageSize, OnCompletionListener<CollectBean[]> listener);
     void getCart(Context context, String userName, OnCompletionListener<CartBean[]> listener);
     void addCart(Context context, String userName,int goodsId,int count, OnCompletionListener<MessageBean> listener);
     void deleteCart(Context context,int cartId, OnCompletionListener<MessageBean> listener);
