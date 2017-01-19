@@ -18,6 +18,7 @@ import cn.ucai.fulicenter.model.net.ModelUser;
 import cn.ucai.fulicenter.model.net.OnCompletionListener;
 import cn.ucai.fulicenter.model.utils.CommonUtils;
 import cn.ucai.fulicenter.model.utils.ResultUtils;
+import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.MFGT;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -36,18 +37,12 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
+        DisplayUtils.initBackWithTitle(this,"用户注册");
     }
 
-    @OnClick({R.id.ivBack, R.id.btnRegister})
+    @OnClick(R.id.btnRegister)
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ivBack:
-                MFGT.finish(this);
-                break;
-            case R.id.btnRegister:
-                checkInput();
-                break;
-        }
+        checkInput();
     }
 
     private void checkInput() {

@@ -23,6 +23,7 @@ import cn.ucai.fulicenter.model.net.OnCompletionListener;
 import cn.ucai.fulicenter.model.utils.CommonUtils;
 import cn.ucai.fulicenter.model.utils.ResultUtils;
 import cn.ucai.fulicenter.model.utils.SharedPrefrenceUtils;
+import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.MFGT;
 
 public class LoginActivity extends AppCompatActivity {
@@ -37,14 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        DisplayUtils.initBackWithTitle(this,"用户登录");
     }
 
-    @OnClick({R.id.ivBack, R.id.btLogin, R.id.btRegisterFree})
+    @OnClick({R.id.btLogin, R.id.btRegisterFree})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ivBack:
-                MFGT.finish(this);
-                break;
             case R.id.btLogin:
                 checkInput();
                 break;
