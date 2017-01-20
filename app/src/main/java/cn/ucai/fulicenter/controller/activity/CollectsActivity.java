@@ -172,4 +172,9 @@ public class CollectsActivity extends AppCompatActivity {
             mAdapter.deleteItem(goodsId);
         }
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+      unregisterReceiver(receiver);
+    }
 }
