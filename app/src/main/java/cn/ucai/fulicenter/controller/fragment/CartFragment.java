@@ -1,10 +1,13 @@
 package cn.ucai.fulicenter.controller.fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +25,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.bean.CartBean;
+import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.controller.adapter.CartAdapter;
 import cn.ucai.fulicenter.model.net.IModelUser;
@@ -39,7 +43,7 @@ public class CartFragment extends Fragment {
     ArrayList<CartBean> mList;
     IModelUser model;
     User user;
-
+    UpdateReceiver mReceiver;
     int mPageId = 1;
 
     @BindView(R.id.tvRefresh)
@@ -50,6 +54,10 @@ public class CartFragment extends Fragment {
     SwipeRefreshLayout msrl;
     @BindView(R.id.tvMore)
     TextView tvMore;
+    @BindView(R.id.tv_cart_sum_price)
+    TextView tvCartSumPrice;
+    @BindView(R.id.tv_cart_save_price)
+    TextView tvCartSavePrice;
 
 
     public CartFragment() {
@@ -64,16 +72,34 @@ public class CartFragment extends Fragment {
         ButterKnife.bind(this, layout);
         model = new ModelUser();
         user = FuLiCenterApplication.getUser();
+        mReceiver=new UpdateReceiver();
         initData();
         initView();
+        setReceiver();
+        pullDownListener();
         return layout;
+    }
+
+    private void setReceiver() {
+        IntentFilter filter=new IntentFilter(I.BROADCAST_UPDATE_CART);
+        getActivity().registerReceiver(mReceiver,filter);
     }
 
 
     private void initData() {
         downloadGoodsList(I.ACTION_DOWNLOAD);
 
+    }
 
+    private void pullDownListener() {
+        msrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mtvRefresh.setVisibility(View.VISIBLE);
+                msrl.setRefreshing(true);
+                downloadGoodsList(I.ACTION_PULL_DOWN);
+            }
+        });
     }
 
     private void downloadGoodsList(final int action) {
@@ -86,6 +112,7 @@ public class CartFragment extends Fragment {
                 mrv.setVisibility(View.VISIBLE);
                 tvMore.setVisibility(View.GONE);
                 ArrayList<CartBean> list = ConvertUtils.array2List(result);
+                mList.addAll(list);
                 if (result != null && result.length > 0) {
                     if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
                         mAdapter.initData(list);
@@ -95,7 +122,7 @@ public class CartFragment extends Fragment {
 
                 } else {
                     mrv.setVisibility(View.GONE);
-                     tvMore.setVisibility(View.VISIBLE);
+                    tvMore.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -122,5 +149,38 @@ public class CartFragment extends Fragment {
         mAdapter = new CartAdapter(getContext(), mList);
         mrv.setAdapter(mAdapter);
     }
+
+    class UpdateReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+              setPrice();
+        }
+    }
+
+    private void setPrice() {
+        int sumPrice = 0;
+        int savePrice = 0;
+        if (mList != null && mList.size() > 0) {
+            for (CartBean cart : mList) {
+                GoodsDetailsBean goods = cart.getGoods();
+                if (cart.isChecked() && goods != null) {
+                    sumPrice += cart.getCount() * getPrice(goods.getCurrencyPrice());
+                    savePrice += cart.getCount() *
+                            (getPrice(goods.getCurrencyPrice()) - getPrice(goods.getRankPrice()));
+
+                }
+            }
+            tvCartSumPrice.setText("合计：￥"+sumPrice);
+            tvCartSavePrice.setText("节省：￥"+savePrice);
+        }
+
+    }
+
+    public int getPrice(String price) {
+        int b = 0;
+        b = Integer.parseInt(price.substring(price.indexOf("￥") + 1));
+        return b;
+    }
+
 
 }
