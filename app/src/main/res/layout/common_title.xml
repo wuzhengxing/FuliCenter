@@ -15,6 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="拯救头发，最美新妆"
-        android:textSize="25sp"
+        android:textSize="20sp"
         style="@android:style/TextAppearance.Medium"/>
 </RelativeLayout>

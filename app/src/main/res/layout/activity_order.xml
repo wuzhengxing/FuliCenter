@@ -2,38 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_order"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
-        android:id="@+id/layout_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_centerHorizontal="true"
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="填写收货地址"
-            android:textSize="25sp"
-            style="@android:style/TextAppearance.Medium"/>
-    </RelativeLayout>
+    android:layout_height="match_parent"
+   >
+
+    <include layout="@layout/common_title"
+        android:id="@+id/include"
+        />
    <View
        android:id="@+id/iv"
-       android:layout_marginTop="10dp"
-       android:layout_below="@id/layout_title"
+       android:layout_below="@id/include"
        android:layout_width="match_parent"
        android:layout_height="3dp"
        android:background="#c4bfbf"/>
    <LinearLayout
+       android:gravity="center_vertical"
        android:layout_below="@id/iv"
        android:id="@+id/layout_user_name"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content">
+       android:layout_height="50dp">
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="收货人:"
            android:textSize="20sp"
-           android:textColor="#161616"
            />
        <EditText
            android:id="@+id/ed_user_name"
@@ -50,16 +41,16 @@
         android:layout_height="3dp"
         android:background="#c4bfbf"/>
    <LinearLayout
+       android:gravity="center_vertical"
        android:id="@+id/layout_phone"
        android:layout_below="@id/iv1"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content">
+       android:layout_height="50dp">
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="手机号码:"
            android:textSize="20sp"
-           android:textColor="#161616"
            />
        <EditText
            android:id="@+id/ed_phone_number"
@@ -80,18 +71,20 @@
        android:id="@+id/layout_city"
        android:layout_below="@id/iv2"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content">
+       android:layout_height="50dp"
+       android:gravity="center_vertical"
+       >
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="所在地区:"
            android:textSize="20sp"
-           android:textColor="#161616"
            />
       <Spinner
           android:id="@+id/spinner"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+          android:layout_height="30dp"
+          android:entries="@array/area"
           />
    </LinearLayout>
     <View
@@ -101,16 +94,16 @@
         android:layout_height="3dp"
         android:background="#c4bfbf"/>
    <LinearLayout
+       android:gravity="center_vertical"
        android:id="@+id/layout_address"
        android:layout_below="@id/iv3"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content">
+       android:layout_height="50dp">
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="街道地址"
            android:textSize="20sp"
-           android:textColor="#161616"
            />
        <EditText
            android:id="@+id/ed_address"
@@ -120,23 +113,18 @@
            android:textSize="20sp"
            />
    </LinearLayout>
+    <View
+        android:id="@+id/iv4"
+        android:layout_below="@id/layout_address"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#c4bfbf"/>
     <RelativeLayout
+        android:layout_alignParentBottom="true"
         android:id="@+id/layout_cart"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
         android:background="@color/white">
-
-        <TextView
-            android:id="@+id/tv_cart_price"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/tv_cart_buy"
-            android:text="合计：￥0"
-            android:textColor="#f90"
-            android:layout_marginRight="10dp"
-           android:gravity="center"
-            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_cart_buy"
@@ -150,6 +138,18 @@
             android:text="结算"
             android:textColor="@color/white"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_cart_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="合计：￥0"
+            android:textColor="#f90"
+            android:layout_marginRight="10dp"
+           android:gravity="center"
+            android:textSize="18sp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/tv_cart_buy" />
     </RelativeLayout>
 
 </RelativeLayout>
