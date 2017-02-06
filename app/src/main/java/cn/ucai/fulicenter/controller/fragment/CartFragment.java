@@ -21,6 +21,7 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
@@ -31,8 +32,10 @@ import cn.ucai.fulicenter.controller.adapter.CartAdapter;
 import cn.ucai.fulicenter.model.net.IModelUser;
 import cn.ucai.fulicenter.model.net.ModelUser;
 import cn.ucai.fulicenter.model.net.OnCompletionListener;
+import cn.ucai.fulicenter.model.utils.CommonUtils;
 import cn.ucai.fulicenter.model.utils.ConvertUtils;
 import cn.ucai.fulicenter.model.utils.SpaceItemDecoration;
+import cn.ucai.fulicenter.view.MFGT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,6 +48,8 @@ public class CartFragment extends Fragment {
     User user;
     UpdateReceiver mReceiver;
     int mPageId = 1;
+    int sumPrice;
+    int payPrice;
 
     @BindView(R.id.tvRefresh)
     TextView mtvRefresh;
@@ -72,19 +77,25 @@ public class CartFragment extends Fragment {
         ButterKnife.bind(this, layout);
         model = new ModelUser();
         user = FuLiCenterApplication.getUser();
-        mReceiver=new UpdateReceiver();
-        initData();
+        mReceiver = new UpdateReceiver();
+        // initData();
         initView();
-        setReceiver();
+
         pullDownListener();
         return layout;
     }
 
     private void setReceiver() {
-        IntentFilter filter=new IntentFilter(I.BROADCAST_UPDATE_CART);
-        getActivity().registerReceiver(mReceiver,filter);
+        IntentFilter filter = new IntentFilter(I.BROADCAST_UPDATE_CART);
+        getActivity().registerReceiver(mReceiver, filter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+        setReceiver();
+    }
 
     private void initData() {
         downloadGoodsList(I.ACTION_DOWNLOAD);
@@ -150,16 +161,26 @@ public class CartFragment extends Fragment {
         mrv.setAdapter(mAdapter);
     }
 
+    @OnClick(R.id.tv_cart_buy)
+    public void onBuy() {
+        if(sumPrice!=0){
+            MFGT.gotoOrder(getActivity(),payPrice);
+        }else {
+            CommonUtils.showLongToast(R.string.order_nothing);
+        }
+    }
+
     class UpdateReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-              setPrice();
+            setPrice();
         }
     }
 
     private void setPrice() {
-        int sumPrice = 0;
+        sumPrice = 0;
         int savePrice = 0;
+        payPrice=0;
         if (mList != null && mList.size() > 0) {
             for (CartBean cart : mList) {
                 GoodsDetailsBean goods = cart.getGoods();
@@ -170,8 +191,10 @@ public class CartFragment extends Fragment {
 
                 }
             }
-            tvCartSumPrice.setText("合计：￥"+sumPrice);
-            tvCartSavePrice.setText("节省：￥"+savePrice);
+            tvCartSumPrice.setText("合计：￥" + sumPrice);
+            tvCartSavePrice.setText("节省：￥" + savePrice);
+            payPrice=sumPrice-savePrice;
+            mAdapter.notifyDataSetChanged();
         }
 
     }
@@ -182,5 +205,9 @@ public class CartFragment extends Fragment {
         return b;
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mReceiver);
+    }
 }

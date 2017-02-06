@@ -51,8 +51,8 @@
         android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/list_background"
-        android:layout_above="@id/layout_cart">
+        android:layout_above="@id/layout_cart"
+        android:background="@color/list_background">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -60,27 +60,28 @@
             android:orientation="vertical">
 
             <TextView
-                android:textSize="18sp"
                 android:id="@+id/tvRefresh"
-                android:textStyle="bold"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="正在刷新中..."
-                android:visibility="gone"/>
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <TextView
-                android:visibility="gone"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/tvMore"
-                android:text="点击重新加载数据"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="点击重新加载数据"
+                android:visibility="gone" />
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 

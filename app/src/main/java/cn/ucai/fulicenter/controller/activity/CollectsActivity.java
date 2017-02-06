@@ -23,7 +23,6 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.bean.CollectBean;
-import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.controller.adapter.CollectAdapter;
 import cn.ucai.fulicenter.model.net.IModelUser;
