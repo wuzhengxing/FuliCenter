@@ -4,6 +4,7 @@ import android.app.Application;
 
 import java.util.HashMap;
 
+import cn.sharesdk.framework.ShareSDK;
 import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.User;
 
@@ -30,6 +31,7 @@ public class FuLiCenterApplication extends Application {
     public void onCreate() {
         super.onCreate();
         insatnce=this;
+        ShareSDK.initSDK(this);
     }
     public static User user;
 
