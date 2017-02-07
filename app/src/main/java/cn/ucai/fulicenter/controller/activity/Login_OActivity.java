@@ -26,7 +26,7 @@ import cn.ucai.fulicenter.model.utils.SharedPrefrenceUtils;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.MFGT;
 
-public class LoginActivity extends AppCompatActivity {
+public class Login_OActivity extends AppCompatActivity {
     IModelUser model;
     @BindView(R.id.etUserName)
     EditText etUserName;
@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 checkInput();
                 break;
             case R.id.btRegisterFree:
-                MFGT.gotoRegister(this);
+               // MFGT.gotoRegister(this);
                 break;
         }
     }
@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login(final String userName, String password) {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage(getString(R.string.logining));
+        dialog.show();
         model = new ModelUser();
         model.login(this, userName, password, new OnCompletionListener<String>() {
             @Override
@@ -82,10 +83,10 @@ public class LoginActivity extends AppCompatActivity {
                             boolean b = UserDao.getInstance().savaUser(user);
                             Log.e("main", "b=" + b);
                             if (b) {
-                                SharedPrefrenceUtils.getInstance(LoginActivity.this).saveUser(user.getMuserName());
+                                SharedPrefrenceUtils.getInstance(Login_OActivity.this).saveUser(user.getMuserName());
                                 FuLiCenterApplication.setUser(user);
                                 setResult(RESULT_OK);
-                                MFGT.finish(LoginActivity.this);
+                                MFGT.finish(Login_OActivity.this);
                             }
                         } else {
                             if (result.getRetCode() == I.MSG_LOGIN_UNKNOW_USER) {

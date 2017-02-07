@@ -3,7 +3,6 @@ package cn.ucai.fulicenter.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 
 import java.util.ArrayList;
 
@@ -11,17 +10,16 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
-import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.controller.activity.BoutiqueChildActivity;
 import cn.ucai.fulicenter.controller.activity.CategoryChildActivity;
 import cn.ucai.fulicenter.controller.activity.CollectsActivity;
 import cn.ucai.fulicenter.controller.activity.GoodsDetailsActivity;
-import cn.ucai.fulicenter.controller.activity.LoginActivity;
-import cn.ucai.fulicenter.controller.activity.MainActivity;
+import cn.ucai.fulicenter.controller.activity.Login_OActivity;
 import cn.ucai.fulicenter.controller.activity.OrderActivity;
 import cn.ucai.fulicenter.controller.activity.RegisterActivity;
 import cn.ucai.fulicenter.controller.activity.SettingActivity;
 import cn.ucai.fulicenter.controller.activity.UpdateNickActivity;
+import cn.ucai.fulicenter.mvp.LoginActivity;
 
 /**
  * Created by Administrator on 2017/1/10.
